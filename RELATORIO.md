@@ -69,11 +69,12 @@ Resultado: **6 testes executados, 0 falhas** (ver `evidencias/resultado-testes.t
 ## 6. Evidências
 - `evidencias/tela-principal.png` – tela com animais cadastrados.
 - `evidencias/tela-validacao.png` – mensagem de erro ao digitar 14 meses.
-- `documentacao/Relatorio_ABNT_PetShop.docx` / `.pdf` – relatório completo no padrão ABNT.
+- `documentacao/Relatorio_ABNT_PetShop.pdf` – relatório completo no padrão ABNT.
 - `evidencias/resultado-testes.txt` – saída do `mvn test`.
 
-## 7. Divisão sugerida para a apresentação
-- Integrante 1: Model (classe-base, herança, encapsulamento).
-- Integrante 2: Polimorfismo e sobrescrita (`calcularPrecoBanho`).
-- Integrante 3: Controller e View (MVC, JavaFX, CSS).
-- Integrante 4: Testes e demonstração do sistema.
+## 7. Integrantes e divisão sugerida para a apresentação
+- **Felipe:** Model – classe-base `Animal`, encapsulamento e validação.
+- **Guilherme Lisboa:** Herança – `Cachorro` e `Gato`.
+- **João:** Polimorfismo e sobrescrita – `calcularPrecoBanho()` e `getDetalhe()`.
+- **Murilo:** Controller e View – MVC, JavaFX e CSS.
+- **Rhenan:** Testes e demonstração do sistema funcionando.
