@@ -5,8 +5,8 @@ public class Gato extends Animal {
 
     private boolean pelagemLonga;
 
-    public Gato(int id, String nome, int idade, String dono, boolean pelagemLonga) {
-        super(id, nome, idade, dono);
+    public Gato(int id, String nome, int anos, int meses, String dono, boolean pelagemLonga) {
+        super(id, nome, anos, meses, dono);
         this.pelagemLonga = pelagemLonga;
     }
 
@@ -21,4 +21,7 @@ public class Gato extends Animal {
 
     @Override
     public String getTipo() { return "Gato"; }
+
+    @Override
+    public String getDetalhe() { return pelagemLonga ? "Pelo longo" : "Pelo curto"; }
 }

@@ -5,8 +5,8 @@ public class Cachorro extends Animal {
 
     private String porte; // P, M ou G
 
-    public Cachorro(int id, String nome, int idade, String dono, String porte) {
-        super(id, nome, idade, dono); // chama o construtor da classe-base
+    public Cachorro(int id, String nome, int anos, int meses, String dono, String porte) {
+        super(id, nome, anos, meses, dono); // chama o construtor da classe-base
         setPorte(porte);
     }
 
@@ -30,4 +30,7 @@ public class Cachorro extends Animal {
 
     @Override
     public String getTipo() { return "Cachorro"; }
+
+    @Override
+    public String getDetalhe() { return "Porte " + porte; }
 }

@@ -27,7 +27,7 @@ Fluxo: o usuário clica em **Cadastrar** → a View chama `controller.cadastrar(
 ### Encapsulamento
 Todos os atributos são `private`. O acesso é feito por getters/setters, e os setters **validam** os dados:
 - nome e dono não podem ser vazios;
-- idade entre 0 e 40;
+- idade em **anos (0 a 40) e meses (0 a 11)** – ex.: 1 ano e 2 meses é aceito, 14 meses não;
 - porte do cachorro só pode ser `P`, `M` ou `G`.
 
 Se algo estiver errado é lançada uma `IllegalArgumentException`, e a View mostra a mensagem num alerta.
@@ -43,14 +43,14 @@ Se algo estiver errado é lançada uma `IllegalArgumentException`, e a View most
 O construtor das subclasses chama `super(...)` para reaproveitar o da classe-base.
 
 ### Polimorfismo
-`Animal` declara os métodos abstratos `calcularPrecoBanho()` e `getTipo()`, que são **sobrescritos** (`@Override`) nas subclasses:
+`Animal` declara os métodos abstratos `calcularPrecoBanho()`, `getTipo()` e `getDetalhe()`, que são **sobrescritos** (`@Override`) nas subclasses:
 
 | Animal | Regra do banho |
 |---|---|
 | Cachorro P / M / G | R$ 40 / R$ 60 / R$ 80 |
 | Gato pelo curto / longo | R$ 50 / R$ 70 |
 
-No `AnimalController.calcularTotalBanhos()` percorremos uma `List<Animal>` e chamamos `a.calcularPrecoBanho()` sem saber se é cachorro ou gato – o Java executa a versão certa de cada objeto. O mesmo acontece na coluna "Banho (R$)" da tabela. Também sobrescrevemos o `toString()` herdado de `Object`.
+No `AnimalController.calcularTotalBanhos()` percorremos uma `List<Animal>` e chamamos `a.calcularPrecoBanho()` sem saber se é cachorro ou gato – o Java executa a versão certa de cada objeto. O mesmo acontece nas colunas "Detalhe" e "Banho" da tabela. Também sobrescrevemos o `toString()` herdado de `Object`.
 
 ## 5. Testes (JUnit)
 Arquivo `AnimalControllerTest.java` – 6 casos de teste:
@@ -59,15 +59,17 @@ Arquivo `AnimalControllerTest.java` – 6 casos de teste:
 |---|---|---|
 | 1 | `deveCadastrarAnimal` | Cadastro adiciona o animal na lista |
 | 2 | `deveConsultarPorNome` | Busca por parte do nome funciona |
-| 3 | `deveAtualizarAnimal` | Idade e dono são alterados |
+| 3 | `deveAtualizarAnimal` | Idade muda para "1 ano e 2 meses" e o dono é alterado |
 | 4 | `deveDeletarAnimal` | Animal é removido |
-| 5 | `naoDeveCadastrarComNomeVazio` | Validação bloqueia nome vazio |
+| 5 | `naoDeveCadastrarComDadosInvalidos` | Validação bloqueia nome vazio e 12 meses |
 | 6 | `deveCalcularPrecoComPolimorfismo` | Cachorro G (80) + Gato longo (70) = 150 |
 
 Resultado: **6 testes executados, 0 falhas** (ver `evidencias/resultado-testes.txt`).
 
 ## 6. Evidências
 - `evidencias/tela-principal.png` – tela com animais cadastrados.
+- `evidencias/tela-validacao.png` – mensagem de erro ao digitar 14 meses.
+- `documentacao/Relatorio_ABNT_PetShop.docx` / `.pdf` – relatório completo no padrão ABNT.
 - `evidencias/resultado-testes.txt` – saída do `mvn test`.
 
 ## 7. Divisão sugerida para a apresentação

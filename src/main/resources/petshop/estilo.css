@@ -1,35 +1,107 @@
-/* Estilo da tela (CSS do JavaFX usa o prefixo -fx-) */
+/* Estilo da tela (o CSS do JavaFX usa o prefixo -fx-) */
+
+/* Fundo e fonte geral */
 .raiz {
-    -fx-padding: 20;
-    -fx-background-color: #f4f7fb;
-    -fx-font-family: "Segoe UI", Arial;
+    -fx-background-color: #eef2f7;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
     -fx-font-size: 13px;
 }
 
+/* Faixa azul do topo */
+.cabecalho {
+    -fx-background-color: linear-gradient(to right, #1e3a5f, #3b7dd8);
+    -fx-padding: 16 24 16 24;
+}
 .titulo {
-    -fx-font-size: 20px;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2a4d7a;
-}
-
-.formulario {
-    -fx-hgap: 10;
-    -fx-vgap: 8;
-}
-
-.button {
-    -fx-background-color: #3b7dd8;
     -fx-text-fill: white;
+}
+.subtitulo {
+    -fx-text-fill: #d6e4f5;
+}
+
+/* Caixas brancas (formulario e lista) */
+.cartao {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 18;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 2);
+}
+.secao {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e3a5f;
+}
+
+/* Campos de texto */
+.text-field, .combo-box {
     -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #c9d3e0;
+    -fx-background-color: #fafcff;
+}
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #3b7dd8;
+}
+
+/* Botoes */
+.button {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 8 14 8 14;
     -fx-cursor: hand;
 }
-.button:hover {
-    -fx-background-color: #2a5fa8;
-}
-.button.perigo {
-    -fx-background-color: #d9534f;
+.btn-sucesso { -fx-background-color: #2e9e5b; }
+.btn-primario { -fx-background-color: #3b7dd8; }
+.btn-perigo  { -fx-background-color: #d9534f; }
+.btn-neutro  { -fx-background-color: #7a8699; }
+.button:hover { -fx-opacity: 0.85; }
+.button:disabled { -fx-opacity: 0.4; }
+
+/* Botoes das janelas de aviso voltam ao normal */
+.dialog-pane .button {
+    -fx-text-fill: black;
+    -fx-font-weight: normal;
 }
 
+/* Mensagens */
+.msg-sucesso { -fx-text-fill: #2e9e5b; -fx-font-weight: bold; }
+.msg-erro    { -fx-text-fill: #d9534f; -fx-font-weight: bold; }
+
+/* Tabela */
+.table-view {
+    -fx-background-radius: 6;
+    -fx-border-color: #d5dde8;
+    -fx-border-radius: 6;
+}
 .table-view .column-header {
-    -fx-background-color: #dbe6f5;
+    -fx-background-color: #1e3a5f;
+}
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.table-view .column-header-background, .table-view .filler {
+    -fx-background-color: #1e3a5f;
+}
+.table-row-cell:odd {
+    -fx-background-color: #f4f7fb;
+}
+.table-row-cell:selected {
+    -fx-background-color: #cfe0f7;
+}
+.table-row-cell:selected .text {
+    -fx-fill: #1e3a5f;
+}
+
+/* Rodape da lista */
+.rodape {
+    -fx-text-fill: #4a5568;
+}
+.total {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2e9e5b;
 }

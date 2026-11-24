@@ -19,43 +19,45 @@ public class AnimalControllerTest {
 
     @Test
     void deveCadastrarAnimal() {
-        controller.cadastrar("Cachorro", "Rex", "3", "Ana", "M");
+        controller.cadastrar("Cachorro", "Rex", "3", "0", "Ana", "M");
         assertEquals(1, controller.consultar("").size());
     }
 
     @Test
     void deveConsultarPorNome() {
-        controller.cadastrar("Cachorro", "Rex", "3", "Ana", "M");
-        controller.cadastrar("Gato", "Mimi", "2", "Bruno", "Sim");
+        controller.cadastrar("Cachorro", "Rex", "3", "0", "Ana", "M");
+        controller.cadastrar("Gato", "Mimi", "2", "5", "Bruno", "Sim");
         assertEquals("Mimi", controller.consultar("mi").get(0).getNome());
     }
 
     @Test
     void deveAtualizarAnimal() {
-        Animal a = controller.cadastrar("Gato", "Mimi", "2", "Bruno", "Nao");
-        controller.atualizar(a.getId(), "Mimi", "5", "Carla", "Nao");
-        assertEquals(5, a.getIdade());
+        Animal a = controller.cadastrar("Gato", "Mimi", "0", "6", "Bruno", "Não");
+        controller.atualizar(a.getId(), "Mimi", "1", "2", "Carla", "Não");
+        assertEquals("1 ano e 2 meses", a.getIdadeFormatada());
         assertEquals("Carla", a.getDono());
     }
 
     @Test
     void deveDeletarAnimal() {
-        Animal a = controller.cadastrar("Cachorro", "Rex", "3", "Ana", "P");
+        Animal a = controller.cadastrar("Cachorro", "Rex", "3", "0", "Ana", "P");
         assertTrue(controller.deletar(a.getId()));
         assertTrue(controller.consultar("").isEmpty());
     }
 
     @Test
-    void naoDeveCadastrarComNomeVazio() {
-        // A validacao do Model deve impedir o cadastro
+    void naoDeveCadastrarComDadosInvalidos() {
+        // A validacao do Model deve impedir: nome vazio e 12 meses (o maximo e 11)
         assertThrows(IllegalArgumentException.class,
-                () -> controller.cadastrar("Cachorro", "", "3", "Ana", "P"));
+                () -> controller.cadastrar("Cachorro", "", "3", "0", "Ana", "P"));
+        assertThrows(IllegalArgumentException.class,
+                () -> controller.cadastrar("Gato", "Mimi", "1", "12", "Bruno", "Sim"));
     }
 
     @Test
     void deveCalcularPrecoComPolimorfismo() {
-        controller.cadastrar("Cachorro", "Rex", "3", "Ana", "G"); // 80
-        controller.cadastrar("Gato", "Mimi", "2", "Bruno", "Sim"); // 70
+        controller.cadastrar("Cachorro", "Rex", "3", "0", "Ana", "G");    // 80
+        controller.cadastrar("Gato", "Mimi", "2", "0", "Bruno", "Sim");   // 70
         assertEquals(150.0, controller.calcularTotalBanhos());
     }
 }

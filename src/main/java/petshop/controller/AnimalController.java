@@ -12,16 +12,18 @@ public class AnimalController {
 
     private final AnimalRepositorio repositorio = new AnimalRepositorio();
 
-    // CADASTRAR: "extra" e o porte (cachorro) ou "Sim"/"Nao" para pelo longo (gato)
-    public Animal cadastrar(String tipo, String nome, String idadeTexto, String dono, String extra) {
-        int idade = converterIdade(idadeTexto);
+    // CADASTRAR: "extra" e o porte (cachorro) ou "Sim"/"Não" para pelo longo (gato)
+    public Animal cadastrar(String tipo, String nome, String anosTexto, String mesesTexto,
+                            String dono, String extra) {
+        int anos = converterNumero(anosTexto, "Anos");
+        int meses = converterNumero(mesesTexto, "Meses");
         int id = repositorio.gerarId();
 
         Animal animal; // variavel do tipo da classe-base guarda qualquer subclasse
         if ("Cachorro".equals(tipo)) {
-            animal = new Cachorro(id, nome, idade, dono, extra);
+            animal = new Cachorro(id, nome, anos, meses, dono, extra);
         } else {
-            animal = new Gato(id, nome, idade, dono, "Sim".equals(extra));
+            animal = new Gato(id, nome, anos, meses, dono, "Sim".equals(extra));
         }
         repositorio.adicionar(animal);
         return animal;
@@ -34,12 +36,13 @@ public class AnimalController {
     }
 
     // ATUALIZAR: muda os dados de um animal ja existente
-    public void atualizar(int id, String nome, String idadeTexto, String dono, String extra) {
+    public void atualizar(int id, String nome, String anosTexto, String mesesTexto,
+                          String dono, String extra) {
         Animal animal = repositorio.buscarPorId(id);
-        if (animal == null) throw new IllegalArgumentException("Animal nao encontrado.");
+        if (animal == null) throw new IllegalArgumentException("Animal não encontrado.");
 
         animal.setNome(nome);
-        animal.setIdade(converterIdade(idadeTexto));
+        animal.setIdade(converterNumero(anosTexto, "Anos"), converterNumero(mesesTexto, "Meses"));
         animal.setDono(dono);
 
         // Cada tipo tem seu atributo proprio
@@ -64,12 +67,13 @@ public class AnimalController {
         return total;
     }
 
-    // Transforma o texto digitado em numero
-    private int converterIdade(String texto) {
+    // Transforma o texto digitado em numero (campo vazio vale 0)
+    private int converterNumero(String texto, String campo) {
+        if (texto == null || texto.isBlank()) return 0;
         try {
             return Integer.parseInt(texto.trim());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Idade deve ser um numero inteiro.");
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(campo + " deve ser um número inteiro.");
         }
     }
 }
