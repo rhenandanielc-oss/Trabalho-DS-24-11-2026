@@ -1,6 +1,7 @@
 package petshop.model;
 
-// HERANCA: Cachorro "e um" Animal (extends)
+// MODEL - HERANCA: Cachorro "e um" Animal (extends).
+// Herda id, nome, idade e dono; acrescenta so o porte.
 public class Cachorro extends Animal {
 
     private String porte; // P, M ou G
@@ -12,6 +13,7 @@ public class Cachorro extends Animal {
 
     public String getPorte() { return porte; }
     public void setPorte(String porte) {
+        // matches("[PMG]") = aceita somente a letra P, M ou G
         if (porte == null || !porte.matches("[PMG]")) {
             throw new IllegalArgumentException("Porte deve ser P, M ou G.");
         }
@@ -19,7 +21,7 @@ public class Cachorro extends Animal {
     }
 
     // SOBRESCRITA: o preco do banho depende do porte
-    @Override
+    @Override // @Override = este metodo substitui o da classe-base
     public double calcularPrecoBanho() {
         switch (porte) {
             case "P": return 40.0;

@@ -10,16 +10,19 @@ import petshop.model.Gato;
 // A tela (View) nunca mexe direto na lista de animais.
 public class AnimalController {
 
+    // O Controller e o unico que conversa com o repositorio (Model)
     private final AnimalRepositorio repositorio = new AnimalRepositorio();
 
     // CADASTRAR: "extra" e o porte (cachorro) ou "Sim"/"Não" para pelo longo (gato)
     public Animal cadastrar(String tipo, String nome, String anosTexto, String mesesTexto,
                             String dono, String extra) {
+        // A tela envia tudo como texto: aqui convertemos para numero
         int anos = converterNumero(anosTexto, "Anos");
         int meses = converterNumero(mesesTexto, "Meses");
         int id = repositorio.gerarId();
 
         Animal animal; // variavel do tipo da classe-base guarda qualquer subclasse
+        // Cria o objeto certo conforme o tipo escolhido na tela
         if ("Cachorro".equals(tipo)) {
             animal = new Cachorro(id, nome, anos, meses, dono, extra);
         } else {
@@ -45,7 +48,7 @@ public class AnimalController {
         animal.setIdade(converterNumero(anosTexto, "Anos"), converterNumero(mesesTexto, "Meses"));
         animal.setDono(dono);
 
-        // Cada tipo tem seu atributo proprio
+        // Cada tipo tem seu atributo proprio; instanceof pergunta "este animal e um Cachorro?"
         if (animal instanceof Cachorro) {
             ((Cachorro) animal).setPorte(extra);
         } else if (animal instanceof Gato) {
@@ -71,8 +74,8 @@ public class AnimalController {
     private int converterNumero(String texto, String campo) {
         if (texto == null || texto.isBlank()) return 0;
         try {
-            return Integer.parseInt(texto.trim());
-        } catch (NumberFormatException e) {
+            return Integer.parseInt(texto.trim()); // "12" -> 12
+        } catch (NumberFormatException e) { // acontece se digitarem letras, ex.: "abc"
             throw new IllegalArgumentException(campo + " deve ser um número inteiro.");
         }
     }

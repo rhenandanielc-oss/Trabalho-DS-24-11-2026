@@ -1,9 +1,10 @@
 package petshop.model;
 
-// HERANCA: Gato "e um" Animal (extends)
+// MODEL - HERANCA: Gato "e um" Animal (extends).
+// Herda id, nome, idade e dono; acrescenta so a pelagem.
 public class Gato extends Animal {
 
-    private boolean pelagemLonga;
+    private boolean pelagemLonga; // true = pelo longo, false = pelo curto
 
     public Gato(int id, String nome, int anos, int meses, String dono, boolean pelagemLonga) {
         super(id, nome, anos, meses, dono);

@@ -16,9 +16,11 @@ import petshop.model.Animal;
 import petshop.model.Cachorro;
 import petshop.model.Gato;
 
-// VIEW: so monta a tela e repassa as acoes para o Controller.
+// VIEW: monta a tela e repassa as acoes para o Controller.
+// Aqui nao ha regra de negocio: validacoes e calculos ficam no Model.
 public class TelaPrincipal {
 
+    // Locale = formato brasileiro de numeros (R$ 60,00 com virgula)
     private static final Locale BRASIL = Locale.forLanguageTag("pt-BR");
     private final AnimalController controller = new AnimalController();
 
@@ -38,6 +40,7 @@ public class TelaPrincipal {
     private final Label lblQuantidade = new Label();
     private final Label lblTotal = new Label();
 
+    // Monta a janela inteira. BorderPane divide a tela em: topo, esquerda e centro
     public void mostrar(Stage stage) {
         BorderPane raiz = new BorderPane();
         raiz.setTop(criarCabecalho());
@@ -47,7 +50,7 @@ public class TelaPrincipal {
         raiz.setCenter(lista);
         BorderPane.setMargin(form, new Insets(16, 8, 16, 16)); // espaco em volta das caixas
         BorderPane.setMargin(lista, new Insets(16, 16, 16, 8));
-        raiz.getStyleClass().add("raiz");
+        raiz.getStyleClass().add("raiz"); // getStyleClass liga o componente a uma classe do CSS
 
         Scene cena = new Scene(raiz, 1040, 620);
         // Liga o arquivo CSS a tela
@@ -63,6 +66,7 @@ public class TelaPrincipal {
 
     // ===== Partes da tela =====
 
+    // Faixa azul do topo (VBox = componentes um embaixo do outro)
     private VBox criarCabecalho() {
         Label titulo = new Label("Pet Shop");
         titulo.getStyleClass().add("titulo");
@@ -73,13 +77,14 @@ public class TelaPrincipal {
         return cabecalho;
     }
 
+    // Caixa da esquerda: campos para digitar os dados e os botoes
     private VBox criarFormulario() {
         cbTipo.getItems().addAll("Cachorro", "Gato");
         cbTipo.setValue("Cachorro");
-        cbTipo.setOnAction(e -> trocarCampoExtra());
+        cbTipo.setOnAction(e -> trocarCampoExtra()); // "e -> ..." = o que fazer quando mudar o tipo
         trocarCampoExtra();
 
-        txtNome.setPromptText("Ex.: Rex");
+        txtNome.setPromptText("Ex.: Rex"); // texto cinza de exemplo dentro do campo
         txtDono.setPromptText("Ex.: Ana Souza");
         txtAnos.setPromptText("anos");
         txtMeses.setPromptText("meses");
@@ -102,6 +107,7 @@ public class TelaPrincipal {
         btnDeletar.getStyleClass().add("btn-perigo");
         btnLimpar.getStyleClass().add("btn-neutro");
 
+        // Ao clicar em cada botao, chama o metodo correspondente
         btnCadastrar.setOnAction(e -> cadastrar());
         btnAtualizar.setOnAction(e -> atualizar());
         btnDeletar.setOnAction(e -> deletar());
@@ -111,6 +117,7 @@ public class TelaPrincipal {
         btnAtualizar.disableProperty().bind(tabela.getSelectionModel().selectedItemProperty().isNull());
         btnDeletar.disableProperty().bind(tabela.getSelectionModel().selectedItemProperty().isNull());
 
+        // GridPane = grade; os 4 botoes ficam em 2 linhas x 2 colunas
         GridPane botoes = new GridPane();
         botoes.setHgap(8);
         botoes.setVgap(8);
@@ -137,13 +144,16 @@ public class TelaPrincipal {
         return form;
     }
 
+    // Caixa da direita: busca, tabela e totais
     private VBox criarLista() {
         Label secao = new Label("Animais cadastrados");
         secao.getStyleClass().add("secao");
         txtBusca.setPromptText("Buscar por nome...");
         txtBusca.setPrefWidth(240);
+        // A cada letra digitada na busca, a tabela e atualizada
         txtBusca.textProperty().addListener((obs, antigo, novo) -> atualizarTabela());
 
+        // Region vazia que estica: empurra a busca para a direita
         Region espaco = new Region();
         HBox.setHgrow(espaco, Priority.ALWAYS);
         HBox topo = new HBox(10, secao, espaco, txtBusca);
@@ -151,6 +161,7 @@ public class TelaPrincipal {
 
         criarColunas();
         tabela.setPlaceholder(new Label("Nenhum animal cadastrado."));
+        // Ao clicar numa linha, os dados vao para o formulario
         tabela.getSelectionModel().selectedItemProperty()
               .addListener((obs, antigo, animal) -> preencherFormulario(animal));
         VBox.setVgrow(tabela, Priority.ALWAYS);
@@ -168,6 +179,7 @@ public class TelaPrincipal {
 
     private void criarColunas() {
         // Cada coluna mostra um dado do animal (texto vindo dos getters)
+        // Animal::getNome = "use o metodo getNome de cada animal"
         tabela.getColumns().addAll(List.of(
             coluna("ID", 40, a -> String.valueOf(a.getId())),
             coluna("Tipo", 80, Animal::getTipo),
@@ -235,6 +247,7 @@ public class TelaPrincipal {
         Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION,
                 "Deseja deletar " + selecionado.getNome() + "?");
         confirmacao.setHeaderText("Confirmar exclusão");
+        // showAndWait espera a resposta; so deleta se clicarem em OK
         if (confirmacao.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             controller.deletar(selecionado.getId());
             limpar();
@@ -243,6 +256,7 @@ public class TelaPrincipal {
         }
     }
 
+    // Apaga os campos e tira a selecao da tabela
     private void limpar() {
         tabela.getSelectionModel().clearSelection();
         txtNome.clear();
@@ -269,6 +283,7 @@ public class TelaPrincipal {
         lblMensagem.setText("");
     }
 
+    // Busca a lista no Controller e redesenha a tabela e os totais
     private void atualizarTabela() {
         List<Animal> animais = controller.consultar(txtBusca.getText());
         tabela.setItems(FXCollections.observableArrayList(animais));
@@ -277,15 +292,18 @@ public class TelaPrincipal {
         lblTotal.setText("Total de banhos: " + formatarPreco(controller.calcularTotalBanhos()));
     }
 
+    // 60.0 -> "R$ 60,00"
     private String formatarPreco(double valor) {
         return String.format(BRASIL, "R$ %.2f", valor);
     }
 
+    // Mensagem verde embaixo dos botoes
     private void mostrarSucesso(String texto) {
         lblMensagem.getStyleClass().setAll("label", "msg-sucesso");
         lblMensagem.setText(texto);
     }
 
+    // Mensagem vermelha + janela de erro
     private void mostrarErro(String texto) {
         lblMensagem.getStyleClass().setAll("label", "msg-erro");
         lblMensagem.setText(texto);
