@@ -1,5 +1,6 @@
 package petshop.view;
 
+import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
@@ -98,7 +99,8 @@ public class TelaPrincipal {
         colPreco.setCellValueFactory(c ->
             new SimpleObjectProperty<>(c.getValue().calcularPrecoBanho()));
 
-        tabela.getColumns().addAll(colId, colTipo, colNome, colIdade, colDono, colPreco);
+        // List.of evita o aviso de "generic array" do compilador
+        tabela.getColumns().addAll(List.of(colId, colTipo, colNome, colIdade, colDono, colPreco));
         tabela.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
     }
 
