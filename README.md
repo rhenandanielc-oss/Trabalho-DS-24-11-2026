@@ -30,5 +30,6 @@ src/main/java/petshop/
 src/main/resources/petshop/estilo.css  -> visual da tela
 src/test/java/petshop/AnimalControllerTest.java -> 6 testes
 evidencias/       -> print da tela e resultado dos testes
-RELATORIO.md      -> relatorio tecnico
+RELATORIO.md      -> relatorio tecnico (resumo)
+documentacao/     -> relatorio no padrao ABNT (.docx e .pdf)
 ```
