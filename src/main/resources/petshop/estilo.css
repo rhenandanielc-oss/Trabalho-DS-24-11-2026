@@ -1,0 +1,35 @@
+/* Estilo da tela (CSS do JavaFX usa o prefixo -fx-) */
+.raiz {
+    -fx-padding: 20;
+    -fx-background-color: #f4f7fb;
+    -fx-font-family: "Segoe UI", Arial;
+    -fx-font-size: 13px;
+}
+
+.titulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2a4d7a;
+}
+
+.formulario {
+    -fx-hgap: 10;
+    -fx-vgap: 8;
+}
+
+.button {
+    -fx-background-color: #3b7dd8;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+.button:hover {
+    -fx-background-color: #2a5fa8;
+}
+.button.perigo {
+    -fx-background-color: #d9534f;
+}
+
+.table-view .column-header {
+    -fx-background-color: #dbe6f5;
+}
